@@ -11,7 +11,7 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 
 - [project Requirements](#project-requirements)
 - [Project Benfits](#what-you-will-learn-from-this-project)
-- [Install & Run](#How-to-Install-&-Run-the-Project:)
+- [Install and Run](#how-to-install-and-run-the-project)
 
 ---
 
@@ -35,7 +35,7 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 
 ---
 
-### **How to Install & Run the Project:**
+### **how to Install and Run the Project**
 
 - **install dependancies**
 
