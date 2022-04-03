@@ -40,7 +40,7 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 - **install dependancies**
 
 ```
-    yarn add
+    yarn 
 ```
 
 - **create .env file in root directory and add the following**
