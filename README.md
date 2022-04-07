@@ -9,19 +9,30 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 
 ## Table of contents
 
+- [project Features](#project-features)
 - [project Requirements](#project-requirements)
 - [Project Benfits](#what-you-will-learn-from-this-project)
 - [Install and Run](#how-to-install-and-run-the-project)
+- [Testing With Postman](#testing-with-postman)
 
 ---
+
+### **Project Features**
+
+- user authentication with `access token` & `refresh token`
+- channel & private channels `CRUD operaions`
+- rooms & private rooms `CRUD operations`
+- real time room chat
 
 ### **Project Requirements**
 
 - a basic knowledge of Typescript
 
-- Node.jst enviroment
+- Node.js enviroment
 
 - a running instance of PostgreSQL
+
+- postman for testing end points
 
 ---
 
@@ -40,7 +51,7 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 - **install dependancies**
 
 ```
-    yarn 
+    yarn
 ```
 
 - **create .env file in root directory and add the following**
@@ -59,14 +70,7 @@ PRIVATEKEY: "SECRET",
 
 /_ PRODUCTIONS _/
 
-PORT=
-HOST=t
-CORSORIGIN=
-DATABASE_URL=
-SALTWORKFACTOR:
-ACCESSTOKENTTL:
-REFRESHTOKENTTL:
-PRIVATEKEY:
+
 
 ```
 
@@ -81,3 +85,11 @@ PRIVATEKEY:
 ```
     yarn dev
 ```
+
+### **testing-with-postman**
+
+- import postman file `postman.json`
+
+<img src="./assets/postman.png" />
+
+- this is how it will look like & it include all the avialable end point
