@@ -1,0 +1,678 @@
+{
+	"info": {
+		"_postman_id": "2dda724f-c4aa-445d-a4a3-ade9e5346705",
+		"name": "realtime-chat-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "ac",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ammar\",\r\n    \"email\": \"amar@gmail.com\",\r\n    \"password\": \"AMar12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"amar@gmail.com\",\r\n    \"password\": \"AMar12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-refresh",
+								"value": "{{refreshToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:1330/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-refresh",
+								"value": "{{refreshToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:1330/api/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "channels",
+			"item": [
+				{
+					"name": "create channel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"code 3\",\r\n    \"private\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/channels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"channels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get public channels",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:1330/api/channels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"channels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get channel",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:1330/api/channels/4o80lMNUcblUqzM0a2LqU",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"channels",
+								"4o80lMNUcblUqzM0a2LqU"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update channel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"code ammar\",\r\n    \"private\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/channels/U2rb9uCr502ueaQFxNzEw",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"channels",
+								"U2rb9uCr502ueaQFxNzEw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete  channel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:1330/api/channels/g7WZWHk9E7t8rjvvrw0AZ",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"channels",
+								"g7WZWHk9E7t8rjvvrw0AZ"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "join channel",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\": \"4G2sW1H53vuK6k9VEJRvw\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/channels/join",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"channels",
+								"join"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "rooms",
+			"item": [
+				{
+					"name": "create room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"room 3\",\r\n    \"private\": true,\r\n    \"channeluuid\": \"gLMe55oK0hMaKowpsmVyR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/rooms",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"channeluuid\": \"3l8rKLu97nNAyOp9eXK2G\",\r\n    \"roomuuid\": \"yKr-o6pwovonszl54vMYx\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/rooms/room/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"rooms",
+								"room",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get rooms",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:1330/api/rooms/all/3l8rKLu97nNAyOp9eXK2G",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"rooms",
+								"all",
+								"3l8rKLu97nNAyOp9eXK2G"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"room updated\",\r\n    \"private\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/rooms/k6NRmDxeFmV9vcnDL1PhM",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"rooms",
+								"k6NRmDxeFmV9vcnDL1PhM"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete room",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:1330/api/rooms/k6NRmDxeFmV9vcnDL1PhM",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"rooms",
+								"k6NRmDxeFmV9vcnDL1PhM"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "messages",
+			"item": [
+				{
+					"name": "new message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-refresh",
+								"type": "text",
+								"value": "{{refreshToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"room 3\",\r\n    \"private\": true,\r\n    \"channeluuid\": \"gLMe55oK0hMaKowpsmVyR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1330/api/messages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1330",
+							"path": [
+								"api",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "access-token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXVpZCI6IjZuT3lnZ2lfNUdRVXBKZEx1My1pVCIsIm5hbWUiOiJhbW1hciIsImVtYWlsIjoiYW1hcjJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkbXVENnd0QWttRk1OWlIvczdGQkJzZVkuYXlqQ0FvcURRNW5WZGlVQU44UWlIdXpCYy44UUMiLCJjcmVhdGVkQXQiOiIyMDIyLTA0LTAyVDA5OjU4OjM5Ljg5NVoiLCJzZXNzaW9uIjoiY2wxaHNqZDhmMDAwMmtndm80YzJmeDVoZyIsImlhdCI6MTY0ODkwMDA4NiwiZXhwIjoxNjQ4OTAwOTg2fQ.oyMVkEr6VL-CruM941eiP7hSaeeVk1JyuvDK6dAl1Fk"
+		},
+		{
+			"key": "refresh-token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXVpZCI6ImNsMWhzamQ4ZjAwMDJrZ3ZvNGMyZng1aGciLCJ1c2VySWQiOiI2bk95Z2dpXzVHUVVwSmRMdTMtaVQiLCJ2YWxpZCI6dHJ1ZSwidXNlckFnZW50IjoiUG9zdG1hblJ1bnRpbWUvNy4yNi44IiwiY3JlYXRlZEF0IjoiMjAyMi0wNC0wMlQxMTo0ODowNi4yMDdaIiwiaWF0IjoxNjQ4OTAwMDg2LCJleHAiOjE2ODA0NTc2ODZ9.ZCmCZQhcHs_0iogm1BIlU5rDVttvnvzMBXAyhjCI7rE"
+		}
+	]
+}

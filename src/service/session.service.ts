@@ -45,8 +45,7 @@ export async function reIssueAccessToken({
   refreshToken: string;
 }) {
   const { decoded } = decode(refreshToken);
-
-  if (!decoded || get(decoded, "uuid")) return false;
+  if (!decoded || !get(decoded, "uuid")) return false;
 
   // get the session
   const session = await prisma.session.findFirst({
@@ -66,7 +65,6 @@ export async function reIssueAccessToken({
   });
 
   if (!user) return false;
-
   const accessToken = createAccesstoken({ user, session });
 
   return accessToken;

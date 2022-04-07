@@ -1,30 +1,52 @@
+import { nanoid } from "nanoid";
 import { Server, Socket } from "socket.io";
 import log from "./logger/logger";
+import validateSocketRequest from "./middleware/vaildateSoketRequest";
 
-const EVENTS = { connection: "connection", disconnection: "disconnection" };
-const allMessages: string[] = [];
+const EVENTS = {
+  connection: "connection",
+  disconnection: "disconnection",
+  CLIENT: {
+    CREATE_CHANNEL: "CREATE_CHANNEL",
+  },
+  SERVER: {
+    CHANNELS: "CHANNELS",
+    JOINT_CHANNEL: "JOINT_CHANNEL",
+  },
+};
+
+let channels: Record<string, { name: string; username: string }> = {};
+let users = [];
 
 function socket({ io }: { io: Server }) {
   log.info("sockets enbled");
 
-  io.use((socket, next) => {
-    console.log(socket.handshake.headers["x-auth-token"]);
-    next();
-  });
+  io.use(validateSocketRequest);
 
   io.on(EVENTS.connection, (socket: Socket) => {
     log.info(`User connected ${socket.id}`);
 
     // events
-    // add new message
-    socket.on("message", (message) => {
-      allMessages.push(message);
-      io.sockets.emit("messages", [...allMessages]);
-    });
+    // socket.emit(EVENTS.SERVER.CHANNELS, channels);
+    // socket.broadcast.emit(EVENTS.SERVER.CHANNELS, channels);
 
-    // get all messages
-    socket.on("getMessages", () => {
-      socket.emit("messages", [...allMessages]);
+    socket.on(EVENTS.CLIENT.CREATE_CHANNEL, ({ channelName, user }) => {
+      const channelId = nanoid();
+      log.info(user);
+      channels[channelId] = {
+        name: channelName,
+        username: user,
+      };
+
+      socket.join(channelId);
+      // broadcast an event
+      socket.broadcast.emit(EVENTS.SERVER.CHANNELS, channels);
+
+      // emit back to creator with all the channels
+      socket.emit(EVENTS.SERVER.CHANNELS, channels);
+
+      // emit back to creator sayiing you joint  channel
+      socket.emit(EVENTS.SERVER.JOINT_CHANNEL, channelId);
     });
   });
 

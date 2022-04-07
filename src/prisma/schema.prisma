@@ -12,19 +12,72 @@ datasource db {
 
 // models
 model User {
-  id        Int       @id @default(autoincrement())
-  uuid      String    @unique @default(cuid())
+  id        Int                 @id @default(autoincrement())
+  uuid      String              @unique @default(cuid())
   name      String?
-  email     String    @unique
+  email     String              @unique
   password  String
   sessions  Session[]
-  createdAt DateTime  @default(now())
+  channels  ChannelsWithUsers[]
+  messages  Message[]
+  createdAt DateTime            @default(now())
+  myChannel Channel[]
+}
+
+model ChannelsWithUsers {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [useruuid], references: [uuid], onDelete: Cascade)
+  useruuid    String
+  channel     Channel  @relation(fields: [channeluuid], references: [uuid], onDelete: Cascade)
+  channeluuid String
+  createdAt   DateTime @default(now())
+
+
+  @@unique([useruuid, channeluuid])
+}
+
+model Channel {
+  id          Int                 @id @default(autoincrement())
+  uuid        String              @unique @default(cuid())
+  name        String
+  creator     User                @relation(fields: [creatoruuid], references: [uuid], onDelete: Cascade)
+  creatoruuid String
+  private     Boolean             @default(false)
+  users       ChannelsWithUsers[]
+  rooms       Room[]
+  messages    Message[]
+  createdAt   DateTime            @default(now())
+
+}
+
+model Room {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @default(cuid())
+  name        String
+  channel     Channel   @relation(fields: [channeluuid], references: [uuid], onDelete: Cascade)
+  channeluuid String
+  messages    Message[]
+  private     Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+}
+
+model Message {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(cuid())
+  message     String
+  sender      User     @relation(fields: [senderuuid], references: [uuid], onDelete: Cascade)
+  senderuuid  String
+  room        Room     @relation(fields: [roomuuid], references: [uuid], onDelete: Cascade)
+  roomuuid    String
+  channel     Channel  @relation(fields: [channeluuid], references: [uuid], onDelete: Cascade)
+  channeluuid String
+  createdAt   DateTime @default(now())
 }
 
 model Session {
   id        Int      @id @default(autoincrement())
   uuid      String   @unique @default(cuid())
-  user      User     @relation(fields: [userId], references: [uuid])
+  user      User     @relation(fields: [userId], references: [uuid], onDelete: Cascade)
   userId    String
   valid     Boolean
   userAgent String
