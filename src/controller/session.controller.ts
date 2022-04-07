@@ -40,10 +40,40 @@ export const createUserSessionHandler = async (
     expiresIn: config.get("refreshTokenTtl"),
   });
 
+  // creating a cookie
+  res.cookie("accessToken", accessToken, {
+    maxAge: 900000, // 15 min
+    httpOnly: true,
+    domain: "localhost",
+    path: "/",
+    sameSite: "strict",
+    secure: false,
+  });
+  res.cookie("refreshToken", refreshToken, {
+    maxAge: 3.154e10, // 1 year
+    httpOnly: true,
+    domain: "localhost",
+    path: "/",
+    sameSite: "strict",
+    secure: false,
+  });
   // returning the access & the refresh tokens
   return res.send({ accessToken, refreshToken });
 };
 
+export const getUserSessionHandler = async (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    return res.send(res.locals.user);
+  } catch (error: any) {
+    log.error(error.message);
+
+    return res.status(401).send(error.message);
+  }
+};
 // logout handler
 export const invalidateUserSessionHandler = async (
   req: RequestWithUser,
