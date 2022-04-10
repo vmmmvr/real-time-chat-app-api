@@ -7,15 +7,13 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 
 </div>
 
-## Table of contents
+### **Table of contents**
 
 - [project Features](#project-features)
 - [project Requirements](#project-requirements)
 - [Project Benfits](#what-you-will-learn-from-this-project)
 - [Install and Run](#how-to-install-and-run-the-project)
 - [Testing With Postman](#testing-with-postman)
-
----
 
 ### **Project Features**
 
@@ -34,8 +32,6 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 
 - postman for testing end points
 
----
-
 ### **what you will learn from this project**
 
 - How to setup the perfect authenctication system
@@ -43,8 +39,6 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 - learn more about jwt tokens and use them in better way
 
 - a running instance of PostgreSQL
-
----
 
 ### **how to Install and Run the Project**
 
