@@ -21,6 +21,7 @@ the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and 
 - channel & private channels `CRUD operaions`
 - rooms & private rooms `CRUD operations`
 - real time room chat
+- real time notifications
 
 ### **Project Requirements**
 
