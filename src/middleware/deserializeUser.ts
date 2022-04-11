@@ -32,6 +32,7 @@ const deserializeUser = async (
   // reIssue access token
   if (expired && refreshToken) {
     const newAcessToken = await reIssueAccessToken({ refreshToken });
+
     if (newAcessToken) {
       // attaching the new access token to the cookies
       res.cookie("accessToken", newAcessToken, {
