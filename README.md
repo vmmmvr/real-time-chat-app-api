@@ -5,6 +5,7 @@
 A resourceful REST API build to serve real time apps with core modules Like authentications , channels & rooms. <br />
 the api build with Node.js , Express , Typescript , socket.io , PostgresSQL and Prisma <br />
 
+<img src="./assets/graph.png" />
 </div>
 
 ### **Table of contents**
