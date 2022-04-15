@@ -6,7 +6,10 @@ import { decode } from "../service/utils/jwt.utils";
 
 const validateSocketRequest = async (socket, next) => {
   try {
-    const accessToken = get(socket, "handshake.headers.authorization");
+    // geting access token from headers
+    const accessToken = socket.handshake.headers.cookie
+      .split(" ")[1]
+      .replace("accessToken=", "");
 
     if (!accessToken) {
       throw new Error("un authenticated");
@@ -16,7 +19,7 @@ const validateSocketRequest = async (socket, next) => {
     if (expired) {
       throw new Error("un authenticated");
     }
-    // log.info({ decoded });
+
     next();
   } catch (error: any) {
     log.error(error.message);
