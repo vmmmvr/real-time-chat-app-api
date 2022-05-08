@@ -18,6 +18,7 @@ const deserializeUser = async (
   // get the refresh token from the header
   const refreshToken =
     get(req, "cookies.refreshToken") || get(req, "headers.x-refresh");
+
   if (!accessToken) return next();
 
   // check if access token is expired
