@@ -1,6 +1,6 @@
-import log from "../../logger/logger";
-import { getRoomMessages } from "../../service/message.service";
-import { EVENTS } from "../utils/Event.utils";
+import log from '../../logger/logger';
+import { getRoomMessages } from '../../service/message.service';
+import { EVENTS } from '../utils/Event.utils';
 
 export const joinRoomHander = async ({ socket, room, user }) => {
   log.info(`${user.name} has joined ${room.name}`);

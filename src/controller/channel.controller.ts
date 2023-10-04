@@ -1,22 +1,12 @@
-import { NextFunction, Response } from "express";
-import { get } from "lodash";
-import RequestWithUser from "../Interfaces/RequestWithUser";
-import log from "../logger/logger";
-import {
-  createChannel,
-  deleteChannel,
-  getChannels,
-  joinChannel,
-  updateChannel,
-} from "../service/channel.service";
+import { NextFunction, Response } from 'express';
+import { get } from 'lodash';
+import RequestWithUser from '../Interfaces/RequestWithUser';
+import log from '../logger/logger';
+import { createChannel, deleteChannel, getChannels, joinChannel, updateChannel } from '../service/channel.service';
 
-export const createChannelHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const createChannelHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const useruuid = get(req, "user.uuid");
+    const useruuid = get(req, 'user.uuid');
 
     const channel = await createChannel({
       name: req.body.name,
@@ -32,11 +22,7 @@ export const createChannelHandler = async (
   }
 };
 
-export const getChannelsHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const getChannelsHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
     const publicChannels = await getChannels({ private: false });
 
@@ -48,13 +34,9 @@ export const getChannelsHandler = async (
   }
 };
 
-export const getChannelHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const getChannelHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const channdeluuid = get(req, "params.uuid");
+    const channdeluuid = get(req, 'params.uuid');
 
     const channel = await getChannels({ uuid: channdeluuid });
 
@@ -66,18 +48,11 @@ export const getChannelHandler = async (
   }
 };
 
-export const updateChannelHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const updateChannelHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const channeluuid = get(req, "params.uuid");
+    const channeluuid = get(req, 'params.uuid');
 
-    const channel = await updateChannel(
-      { uuid: channeluuid },
-      { ...get(req, "body") }
-    );
+    const channel = await updateChannel({ uuid: channeluuid }, { ...get(req, 'body') });
 
     return res.status(200).send(channel);
   } catch (error: any) {
@@ -87,13 +62,9 @@ export const updateChannelHandler = async (
   }
 };
 
-export const deleteChannelHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const deleteChannelHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const channeluuid = get(req, "params.uuid");
+    const channeluuid = get(req, 'params.uuid');
 
     const channel = await deleteChannel({ uuid: channeluuid });
 
@@ -105,13 +76,9 @@ export const deleteChannelHandler = async (
   }
 };
 
-export const jointChannelHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const jointChannelHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const useruuid = get(req, "user.uuid");
+    const useruuid = get(req, 'user.uuid');
     const channeluuid = req.body.uuid;
     const jointedChannel = await joinChannel({ useruuid, channeluuid });
 
@@ -123,8 +90,4 @@ export const jointChannelHandler = async (
   }
 };
 
-const createRoomHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {};
+const createRoomHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {};

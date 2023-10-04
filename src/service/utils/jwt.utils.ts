@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import config from "config";
-import log from "../../logger/logger";
+import jwt from 'jsonwebtoken';
+import log from '../../logger/logger';
+import config from '../../../config';
 
-const privateKey = config.get("privateKey") as string;
+const privateKey = config.privateKey;
 
 export function sign(object: Object, options: jwt.SignOptions | undefined) {
   return jwt.sign(object, privateKey, options);
@@ -17,7 +17,7 @@ export function decode(token: string) {
     log.error(error.message);
     return {
       valid: false,
-      expired: error.message === "jwt expired",
+      expired: error.message === 'jwt expired',
       decoded: null,
     };
   }

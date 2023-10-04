@@ -1,6 +1,6 @@
-import { nanoid } from "nanoid";
-import { prisma } from "../db/prisma";
-import log from "../logger/logger";
+import { nanoid } from 'nanoid';
+import { prisma } from '../db/prisma';
+import log from '../logger/logger';
 
 export async function createChannel(input: any) {
   try {
