@@ -1,7 +1,7 @@
-import { query } from "express";
-import { nanoid } from "nanoid";
-import { prisma } from "../db/prisma";
-import log from "../logger/logger";
+import { query } from 'express';
+import { nanoid } from 'nanoid';
+import { prisma } from '../db/prisma';
+import log from '../logger/logger';
 
 export async function createRoom(input: any) {
   try {

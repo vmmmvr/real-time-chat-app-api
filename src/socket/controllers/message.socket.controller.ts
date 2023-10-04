@@ -1,4 +1,4 @@
-import { EVENTS } from "../utils/Event.utils";
+import { EVENTS } from '../utils/Event.utils';
 
 export const sendMessageHandler = async ({ socket, sendedMessage }) => {
   // broadcast an event

@@ -18,6 +18,7 @@ model User {
   email     String              @unique
   password  String
   sessions  Session[]
+  active    Boolean             @default(false)
   channels  ChannelsWithUsers[]
   messages  Message[]
   createdAt DateTime            @default(now())
@@ -31,7 +32,6 @@ model ChannelsWithUsers {
   channel     Channel  @relation(fields: [channeluuid], references: [uuid], onDelete: Cascade)
   channeluuid String
   createdAt   DateTime @default(now())
-
 
   @@unique([useruuid, channeluuid])
 }
@@ -47,7 +47,6 @@ model Channel {
   rooms       Room[]
   messages    Message[]
   createdAt   DateTime            @default(now())
-
 }
 
 model Room {
@@ -81,5 +80,6 @@ model Session {
   userId    String
   valid     Boolean
   userAgent String
+  userIP    String?
   createdAt DateTime @default(now())
 }

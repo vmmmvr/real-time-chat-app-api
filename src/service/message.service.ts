@@ -1,5 +1,5 @@
-import { prisma } from "../db/prisma";
-import log from "../logger/logger";
+import { prisma } from '../db/prisma';
+import log from '../logger/logger';
 export async function createMessage(input: any) {
   try {
     const message = await prisma.message.create({

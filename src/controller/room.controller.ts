@@ -1,25 +1,15 @@
-import { NextFunction, Response } from "express";
-import { get } from "lodash";
-import RequestWithUser from "../Interfaces/RequestWithUser";
-import log from "../logger/logger";
-import {
-  createRoom,
-  deleteRoom,
-  getRoom,
-  getRooms,
-  updateRoom,
-} from "../service/room.service";
+import { NextFunction, Response } from 'express';
+import { get } from 'lodash';
+import RequestWithUser from '../Interfaces/RequestWithUser';
+import log from '../logger/logger';
+import { createRoom, deleteRoom, getRoom, getRooms, updateRoom } from '../service/room.service';
 
-export const createRoomHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const createRoomHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
     const room = await createRoom({
-      name: req.body["name"],
-      channeluuid: req.body["channeluuid"],
-      private: req.body["private"],
+      name: req.body['name'],
+      channeluuid: req.body['channeluuid'],
+      private: req.body['private'],
     });
 
     return res.status(200).send(room);
@@ -30,15 +20,11 @@ export const createRoomHandler = async (
   }
 };
 
-export const getRoomHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const getRoomHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
     const room = await getRoom({
-      channeluuid: req.body["channeluuid"],
-      roomuuid: req.body["roomuuid"],
+      channeluuid: req.body['channeluuid'],
+      roomuuid: req.body['roomuuid'],
     });
 
     return res.status(200).send(room);
@@ -49,13 +35,9 @@ export const getRoomHandler = async (
   }
 };
 
-export const getRoomsHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const getRoomsHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const rooms = await getRooms({ channeluuid: req.params["channeluuid"] });
+    const rooms = await getRooms({ channeluuid: req.params['channeluuid'] });
 
     return res.status(200).send(rooms);
   } catch (error: any) {
@@ -65,16 +47,9 @@ export const getRoomsHandler = async (
   }
 };
 
-export const updateRoomHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const updateRoomHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const room = await updateRoom(
-      { ...req["body"] },
-      { roomuuid: req.params["roomuuid"] }
-    );
+    const room = await updateRoom({ ...req['body'] }, { roomuuid: req.params['roomuuid'] });
 
     return res.status(200).send(room);
   } catch (error: any) {
@@ -84,13 +59,9 @@ export const updateRoomHandler = async (
   }
 };
 
-export const deleteRoomHandler = async (
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) => {
+export const deleteRoomHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    const room = await deleteRoom({ roomuuid: req.params["roomuuid"] });
+    const room = await deleteRoom({ roomuuid: req.params['roomuuid'] });
 
     return res.sendStatus(200);
   } catch (error: any) {
