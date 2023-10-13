@@ -2,7 +2,7 @@ import { User } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 import log from '../logger/logger';
 import { validatePassword } from '../service/helpers/validatePassword';
-import { createAccesstoken, createSession, updateSession } from '../service/session.service';
+import { createAccesstoken, createSession, getSession, updateSession } from '../service/session.service';
 import { Prisma } from '@prisma/client';
 import { sign } from '../service/utils/jwt.utils';
 import { info } from 'console';
@@ -44,24 +44,30 @@ export const createUserSessionHandler = async (req: Request, res: Response, next
     httpOnly: true,
     domain: 'localhost',
     path: '/',
-    sameSite: 'strict',
-    secure: false,
+    sameSite: 'none',
+    secure: true,
   });
   res.cookie('refreshToken', refreshToken, {
     maxAge: 3.154e10, // 1 year
     httpOnly: true,
     domain: 'localhost',
     path: '/',
-    sameSite: 'strict',
-    secure: false,
+    sameSite: 'none',
+    secure: true,
   });
+
   // returning the access & the refresh tokens
   return res.send({ accessToken, refreshToken });
 };
 
 export const getUserSessionHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
-    return res.send(res.locals.user);
+    const session = await getSession(res.locals.user.session);
+
+    if (session && session.valid === true) {
+      return res.send(res.locals.user);
+    }
+    return res.status(401).send({ error: 'Un authorized' });
   } catch (error: any) {
     log.error(error.message);
 

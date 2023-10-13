@@ -6,6 +6,10 @@ import { createRoom, deleteRoom, getRoom, getRooms, updateRoom } from '../servic
 
 export const createRoomHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
+    console.log({
+      channeluuid: req.body['channeluuid'],
+    });
+
     const room = await createRoom({
       name: req.body['name'],
       channeluuid: req.body['channeluuid'],
@@ -23,8 +27,7 @@ export const createRoomHandler = async (req: RequestWithUser, res: Response, nex
 export const getRoomHandler = async (req: RequestWithUser, res: Response, next: NextFunction) => {
   try {
     const room = await getRoom({
-      channeluuid: req.body['channeluuid'],
-      roomuuid: req.body['roomuuid'],
+      roomuuid: req.params['roomuuid'],
     });
 
     return res.status(200).send(room);

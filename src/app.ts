@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: corsOrigin, credentials: true }));
+app.use(cors({ origin: corsOrigin, credentials: true, methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'] }));
 app.use(deserializeUser);
 
 const httpServer = createServer(app);

@@ -9,9 +9,9 @@ export const createRoomSchema = object({
 });
 
 export const getRoomSchema = object({
-  body: object({
+  params: object({
     roomuuid: string().required('Room uuid is required'),
-    channeluuid: string().required('channel uuid is required'),
+    // channeluuid: string().required('channel uuid is required'),
   }),
 });
 

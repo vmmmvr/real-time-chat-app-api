@@ -4,6 +4,7 @@ import {
   deleteChannelHandler,
   getChannelHandler,
   getChannelsHandler,
+  getMyChannelsHandler,
   jointChannelHandler,
   updateChannelHandler,
 } from './controller/channel.controller';
@@ -25,12 +26,12 @@ export default function (app: Express) {
   app.get('/', (req: Request, res: Response) => res.sendStatus(200));
 
   // user routes
-  app.get('/api/me', requireUser, getUserSessionHandler);
+  app.get('/api/me', [requireUser], getUserSessionHandler);
   // register
   app.post('/api/user', validateRequest(createUserSchema), createUserHandler);
 
   // login
-  app.post('/api/sessions', [validateRequest(createUserSessionSchema), ipThrottler], createUserSessionHandler);
+  app.post('/api/sessions', [validateRequest(createUserSessionSchema)], createUserSessionHandler);
 
   // logout
   app.delete('/api/sessions', requireUser, invalidateUserSessionHandler);
@@ -41,6 +42,7 @@ export default function (app: Express) {
 
   // get public channels
   app.get('/api/channels', getChannelsHandler);
+  app.get('/api/channels/me', requireUser, getMyChannelsHandler);
 
   // get single channel
   app.get('/api/channels/:uuid', getChannelHandler);
@@ -59,7 +61,7 @@ export default function (app: Express) {
   app.post('/api/rooms', [validateRequest(createRoomSchema), requireUser], createRoomHandler);
 
   // get single room
-  app.post('/api/rooms/room', [validateRequest(getRoomSchema), requireUser], getRoomHandler);
+  app.get('/api/rooms/:roomuuid', [validateRequest(getRoomSchema), requireUser], getRoomHandler);
 
   // get  rooms
   app.get('/api/rooms/all/:channeluuid', [validateRequest(getRoomsSchema), requireUser], getRoomsHandler);
