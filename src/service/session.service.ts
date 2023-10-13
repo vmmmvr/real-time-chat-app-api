@@ -25,10 +25,6 @@ export async function createSession(input: any) {
 
 // create access toekn
 export async function createAccesstoken({ user, session }: { user: User; session: Session }) {
-  console.log({
-    expiresIn: config.accessTokenTtl,
-  });
-
   const accessToken = sign(
     { ...user, session: session.uuid },
     { expiresIn: config.accessTokenTtl }, // 15 minutes
@@ -75,6 +71,14 @@ export async function updateSession(uuid: string, value: any) {
       valid: false,
     },
   });
-  log.info(updatedSession);
   return updateSession;
+}
+// get session
+export async function getSession(uuid: string) {
+  const session = await prisma.session.findFirst({
+    where: {
+      uuid: uuid,
+    },
+  });
+  return session;
 }

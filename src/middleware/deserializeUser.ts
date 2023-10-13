@@ -31,7 +31,7 @@ const deserializeUser = async (req: RequestWithUser, res: Response, next: NextFu
       // attaching the new access token to the cookies
       res.cookie('accessToken', newAcessToken, {
         maxAge: 900000, // 15 min
-        httpOnly: true,
+        httpOnly: false,
         domain: 'localhost',
         path: '/',
         sameSite: 'strict',

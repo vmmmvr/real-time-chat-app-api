@@ -49,7 +49,6 @@ export async function getRoom(query: any) {
   try {
     const room = await prisma.room.findFirst({
       where: {
-        channeluuid: query.channeluuid,
         uuid: query.roomuuid,
       },
       include: {
