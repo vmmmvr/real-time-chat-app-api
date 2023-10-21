@@ -23,6 +23,10 @@ model User {
   messages  Message[]
   createdAt DateTime            @default(now())
   myChannel Channel[]
+
+  profile_image String?
+  username      String? @unique
+  description   String?
 }
 
 model ChannelsWithUsers {
@@ -47,6 +51,9 @@ model Channel {
   rooms       Room[]
   messages    Message[]
   createdAt   DateTime            @default(now())
+
+  image       String?
+  description String?
 }
 
 model Room {
@@ -58,6 +65,9 @@ model Room {
   messages    Message[]
   private     Boolean   @default(false)
   createdAt   DateTime  @default(now())
+
+  image       String?
+  description String?
 }
 
 model Message {
@@ -71,6 +81,16 @@ model Message {
   channel     Channel  @relation(fields: [channeluuid], references: [uuid], onDelete: Cascade)
   channeluuid String
   createdAt   DateTime @default(now())
+
+  images MessagesImage[]
+}
+
+model MessagesImage {
+  id          Int     @id @default(autoincrement())
+  uuid        String  @unique @default(cuid())
+  image       String
+  message     Message @relation(fields: [messageuuid], references: [uuid], onDelete: Cascade)
+  messageuuid String
 }
 
 model Session {
