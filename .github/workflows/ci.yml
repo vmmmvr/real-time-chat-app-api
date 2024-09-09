@@ -1,0 +1,56 @@
+name: CI Pipeline
+
+# Trigger the workflow on pushes and pull requests to the main or feature branches
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+  pull_request:
+    branches:
+      - main
+      - feature/*
+
+# Define the job to be run
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js environment and cache dependencies
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Set your Node.js version here
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run linting (optional)
+      - name: Run lint
+        run: npm run lint
+
+      # Run tests
+      - name: Run tests
+        run: npm run test
+
+      # Optionally, run e2e tests if you have them
+      - name: Run e2e tests
+        run: npm run test:e2e
+        
+      # Run the build process for your NestJS project
+      - name: Build project
+        run: npm run build

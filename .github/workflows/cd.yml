@@ -1,0 +1,44 @@
+name: CD to VPS
+
+on:
+  push:
+    branches:
+      - main  # Only deploy when there's a push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up SSH to connect to the VPS
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Deploy to VPS
+      - name: Deploy to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            # Navigate to the project directory
+            cd /path/to/your/project
+
+            # Pull the latest changes
+            git pull origin main
+
+            # Install dependencies
+            npm install
+
+            # Build the project
+            npm run build
+
+            # Restart the application (assuming you're using pm2)
+            pm2 restart all || pm2 start dist/main.js --name "nestjs-app"
+
+            # Optional: If you're using systemd instead of pm2, you can restart the service like this:
+            # sudo systemctl restart nestjs-app
+          EOF
