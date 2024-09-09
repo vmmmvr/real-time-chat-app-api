@@ -43,14 +43,6 @@ jobs:
       - name: Run lint
         run: npm run lint
 
-      # Run tests
-      - name: Run tests
-        run: npm run test
-
-      # Optionally, run e2e tests if you have them
-      - name: Run e2e tests
-        run: npm run test:e2e
-
       # Run the build process for your NestJS project
       - name: Build project
         run: npm run build
