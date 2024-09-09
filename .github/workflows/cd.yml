@@ -1,4 +1,4 @@
-name: CD to VPS
+name: CD Pipeline
 
 on:
   push:

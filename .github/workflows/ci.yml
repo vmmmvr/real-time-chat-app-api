@@ -4,11 +4,11 @@ name: CI Pipeline
 on:
   push:
     branches:
-      - main
+      - master
       - feature/*
   pull_request:
     branches:
-      - main
+      - master
       - feature/*
 
 # Define the job to be run
@@ -50,7 +50,7 @@ jobs:
       # Optionally, run e2e tests if you have them
       - name: Run e2e tests
         run: npm run test:e2e
-        
+
       # Run the build process for your NestJS project
       - name: Build project
         run: npm run build
