@@ -52,6 +52,7 @@ jobs:
 
             # Restart the PM2 process for the NestJS API
             pm2 restart all || pm2 start dist/main.js --name "nestjs-api"
+          debug: true
 
       # Optional Step 7: Notify on successful deployment
       # - name: Send deployment notification
