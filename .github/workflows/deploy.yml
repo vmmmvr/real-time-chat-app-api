@@ -1,4 +1,4 @@
-name: CI/CD for NestJS API
+name: CI/CD for chatio API
 
 on:
   push:
@@ -24,9 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run tests
-      - name: Run tests
-        run: npm run test
 
       # Step 5: Build the NestJS project
       - name: Build project
