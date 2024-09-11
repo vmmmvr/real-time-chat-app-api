@@ -64,17 +64,4 @@ export class AuthController {
     const { accessToken } = await this.authService.refreshToken(refreshToken);
     return { accessToken };
   }
-
-  @Post('test-token')
-  @ApiBody({ type: RefreshTokenDto, description: 'User test token' }) // Describes the body of the request
-  @ApiResponse({
-    status: 200,
-    description: 'test token reIssued  successfully',
-    schema: { example: { message: 'access test reIssued  successfully', accessToken: 'jwt_token_here' } },
-  })
-  @HttpCode(200)
-  async testTOken(@Body('refreshToken') refreshToken: string) {
-    const { accessToken } = await this.authService.refreshToken(refreshToken);
-    return { accessToken };
-  }
 }
