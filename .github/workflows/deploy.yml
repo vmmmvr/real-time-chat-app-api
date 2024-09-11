@@ -39,6 +39,7 @@ jobs:
           port: 22
           script: |
             # Go to the deployment path
+            cd ..
             cd ${{ secrets.VPS_DEPLOY_PATH }}
 
             # Pull the latest changes from the master branch
@@ -51,7 +52,7 @@ jobs:
             npm run build
 
             # Restart the PM2 process for the NestJS API
-            pm2 restart all || pm2 start dist/main.js --name "nestjs-api"
+            pm2 restart all || pm2 start dist/main.js --name "chatio"
           debug: true
 
       # Optional Step 7: Notify on successful deployment
