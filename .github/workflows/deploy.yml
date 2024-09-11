@@ -57,9 +57,9 @@ jobs:
             pm2 restart all || pm2 start dist/main.js --name "nestjs-api"
 
       # Optional Step 7: Notify on successful deployment
-      - name: Send deployment notification
-        uses: appleboy/telegram-action@v0.1.5
-        with:
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          message: "NestJS API deployed to VPS successfully!"
+      # - name: Send deployment notification
+      #   uses: appleboy/telegram-action@v0.1.5
+      #   with:
+      #     token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      #     to: ${{ secrets.TELEGRAM_CHAT_ID }}
+      #     message: "NestJS API deployed to VPS successfully!"
