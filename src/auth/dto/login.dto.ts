@@ -20,3 +20,10 @@ export class LoginDto {
   @MinLength(6)
   readonly password: string;
 }
+
+export class RefreshTokenDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  refreshToken?: string;
+}

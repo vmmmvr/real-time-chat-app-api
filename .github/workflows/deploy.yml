@@ -1,0 +1,65 @@
+name: CI/CD for NestJS API
+
+on:
+  push:
+    branches:
+      - master  # This triggers the workflow on pushes to the master branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js (Use the correct version of Node.js)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x' # or the version you are using
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Run tests
+      - name: Run tests
+        run: npm run test
+
+      # Step 5: Build the NestJS project
+      - name: Build project
+        run: npm run build
+
+      # Step 6: Deploy to VPS
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            # Go to the deployment path
+            cd ${{ secrets.VPS_DEPLOY_PATH }}
+
+            # Pull the latest changes from the master branch
+            git pull origin master
+
+            # Install dependencies on the server
+            npm install
+
+            # Build the project on the server
+            npm run build
+
+            # Restart the PM2 process for the NestJS API
+            pm2 restart all || pm2 start dist/main.js --name "nestjs-api"
+
+      # Optional Step 7: Notify on successful deployment
+      - name: Send deployment notification
+        uses: appleboy/telegram-action@v0.1.5
+        with:
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: "NestJS API deployed to VPS successfully!"

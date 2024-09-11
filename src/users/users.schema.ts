@@ -20,6 +20,9 @@ export class User extends Document {
   // Array of friends referencing other users
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   friends: Types.ObjectId[];
+
+  @Prop({ select: false }) // Exclude refresh token from queries by default
+  refreshToken: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

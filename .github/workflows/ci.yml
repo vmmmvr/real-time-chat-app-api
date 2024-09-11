@@ -46,3 +46,4 @@ jobs:
       # Run the build process for your NestJS project
       - name: Build project
         run: npm run build
+        

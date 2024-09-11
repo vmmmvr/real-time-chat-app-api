@@ -12,7 +12,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true, // Makes ConfigModule global, so you don't need to import it elsewhere
     }),
-
     // Configure Mongoose using the environment variable
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
