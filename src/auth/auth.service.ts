@@ -6,12 +6,14 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/users/users.schema';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name) private userModel: Model<User>,
     private jwtService: JwtService,
+    private configService: ConfigService
   ) {}
 
   // User signup logic
@@ -60,15 +62,16 @@ export class AuthService {
       }
 
       // Generate access token
-      const payload = { username: user.username, sub: user._id };
+      const payload = { username: user.username, id: user._id };
+      const secret = this.configService.get<string>('JWT_SECRET');
       const accessToken = this.jwtService.sign(payload, {
-        secret: 'ACCESS_TOKEN_SECRET',
+        secret: secret,
         expiresIn: '15m', // Short-lived access token
       });
 
       // Generate refresh token
       const refreshToken = this.jwtService.sign(payload, {
-        secret: 'REFRESH_TOKEN_SECRET',
+        secret: secret,
         expiresIn: '7d', // Longer-lived refresh token
       });
 
@@ -87,12 +90,13 @@ export class AuthService {
 
   async refreshToken(oldRefreshToken: string): Promise<any> {
     try {
+      const secret = this.configService.get<string>('JWT_SECRET');
       const payload = this.jwtService.verify(oldRefreshToken, {
-        secret: 'REFRESH_TOKEN_SECRET',
+        secret: secret,
       });
 
       // Find the user by the ID in the token
-      const user = await this.userModel.findById(payload.sub).select('+refreshToken');
+      const user = await this.userModel.findById(payload.id).select('+refreshToken');
       if (!user) {
         throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
       }
@@ -104,7 +108,7 @@ export class AuthService {
       }
 
       // Generate a new access token
-      const newAccessToken = this.jwtService.sign({ username: user.username, sub: user._id }, { secret: 'ACCESS_TOKEN_SECRET', expiresIn: '15m' });
+      const newAccessToken = this.jwtService.sign({ username: user.username, sub: user._id }, { secret: secret, expiresIn: '15m' });
 
       return { accessToken: newAccessToken };
     } catch (error: any) {

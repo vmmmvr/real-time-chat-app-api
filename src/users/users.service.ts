@@ -9,6 +9,47 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
+  async getUsers(currentUserId?: String | null) {
+    try {
+      const currentUser = await this.userModel.findById(currentUserId).select('friends').exec();
+
+      if (!currentUser) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+
+      const firnedsIds = currentUser.friends.map((friend) => friend.toString());
+
+      const users = await this.userModel
+        .find({ _id: { $nin: [...firnedsIds, currentUser] } }, '_id, name email username') // Fetch all users
+        .populate({
+          path: 'friends', // 'friends' is a reference to the same User model
+          select: 'name email username', // Only populate specific fields from friends
+        })
+        .exec(); // Execute the query
+
+      return users;
+    } catch (err: any) {
+      throw new HttpException("Can't find these users", HttpStatus.BAD_REQUEST);
+    }
+  }
+  async getUser(id: string) {
+    try {
+      const user = await this.userModel.findById(id).lean().exec();
+      const friendsIds = user.friends.map((friend) => friend.toString());
+
+      const allUserFriends = await this.userModel
+        .find(
+          {
+            _id: { $in: [...friendsIds] },
+          },
+          '_id name username email',
+        )
+        .lean()
+        .exec();
+
+      return { ...user, friends: allUserFriends };
+    } catch (err: any) {
+      throw new HttpException("Can't find this user", HttpStatus.BAD_REQUEST);
+    }
+  }
   async changePassword(user: User, changePasswordDto: ChangePasswordDto) {
     const { currentPassword, newPassword } = changePasswordDto;
 

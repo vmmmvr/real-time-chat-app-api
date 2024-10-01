@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ResponseInterceptor } from './lib/interceptors/response.interceptor';
 import { HttpExceptionFilter } from './lib/filters/http-exception.filter';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,7 +28,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
+  // Enable CORS globally
+  app.enableCors();
   await app.listen(port);
   console.log(`Application running on port ${port}`);
 }

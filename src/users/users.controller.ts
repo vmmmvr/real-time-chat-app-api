@@ -11,7 +11,15 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-  // Route to get the current authenticated user
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async users(@GetUser() user: object) {
+    const userData = await this.usersService.getUsers(user?.['sub']);
+    return userData; // Return the current user from the JWT token
+  }
+
   @UseGuards(JwtAuthGuard) // Protect route with JWT guard
   @Get('me')
   @ApiResponse({
@@ -20,8 +28,9 @@ export class UsersController {
     schema: { example: { userId: '123456', username: 'john_doe', email: 'john@example.com' } },
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  getMe(@GetUser() user: User) {
-    return user; // Return the current user from the JWT token
+  async getMe(@GetUser() user: object) {
+    const userData = await this.usersService.getUser(user?.['sub']);
+    return userData; // Return the current user from the JWT token
   }
 
   // Route to change the password

@@ -61,6 +61,7 @@ export class AuthController {
   })
   @HttpCode(200)
   async refreshToken(@Body('refreshToken') refreshToken: string) {
+    
     const { accessToken } = await this.authService.refreshToken(refreshToken);
     return { accessToken };
   }
