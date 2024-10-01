@@ -9,7 +9,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async getUsers(currentUserId?: String | null) {
+  async getUsers(currentUserId?: string | null) {
     try {
       const currentUser = await this.userModel.findById(currentUserId).select('friends').exec();
 
