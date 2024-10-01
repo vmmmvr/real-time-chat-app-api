@@ -16,7 +16,7 @@ export class UsersController {
   @Get()
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async users(@GetUser() user: object) {
-    const userData = await this.usersService.getUsers(user?.['sub']);
+    const userData = await this.usersService.getUsers(user?.['id']);
     return userData; // Return the current user from the JWT token
   }
 
@@ -29,7 +29,7 @@ export class UsersController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getMe(@GetUser() user: object) {
-    const userData = await this.usersService.getUser(user?.['sub']);
+    const userData = await this.usersService.getUser(user?.['id']);
     return userData; // Return the current user from the JWT token
   }
 

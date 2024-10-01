@@ -1,1 +1,1 @@
-export type GetUsers = object;
+export type GetUsers = any;
