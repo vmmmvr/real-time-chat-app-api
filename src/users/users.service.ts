@@ -33,7 +33,10 @@ export class UsersService {
   async getUser(id: string) {
     try {
       const user = await this.userModel.findById(id).lean().exec();
-      const friendsIds = user.friends.map((friend) => friend.toString());
+      let friendsIds;
+      if (user.friends.length > 0) {
+        friendsIds = user.friends.map((friend) => friend.toString());
+      }
 
       const allUserFriends = await this.userModel
         .find(
@@ -47,6 +50,8 @@ export class UsersService {
 
       return { ...user, friends: allUserFriends };
     } catch (err: any) {
+      console.log(err);
+
       throw new HttpException("Can't find this user", HttpStatus.BAD_REQUEST);
     }
   }

@@ -12,6 +12,22 @@ export class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(client: Socket) {
     console.log('Client connected:', client.id);
+
+    // Number of events to send per second (1000 events per minute = 16.67 events per second)
+    const eventsPerSecond = 17;
+    let eventCount = 0;
+    const totalEvents = 1000;
+
+    // Emit events at regular intervals (1000ms / eventsPerSecond)
+    // const intervalId = setInterval(() => {
+    //   if (eventCount >= totalEvents) {
+    //     clearInterval(intervalId); // Stop after sending 1000 events
+    //     console.log(`Sent ${totalEvents} events to client ${client.id}`);
+    //   } else {
+    //     client.emit('event', { message: `Welcome, client ${client.id}, event #${eventCount + 1}` });
+    //     eventCount++;
+    //   }
+    // }, 1000 / eventsPerSecond); // Interval in milliseconds for each event
   }
 
   handleDisconnect(client: Socket) {
