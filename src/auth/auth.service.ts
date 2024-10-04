@@ -108,7 +108,7 @@ export class AuthService {
       }
 
       // Generate a new access token
-      const newAccessToken = this.jwtService.sign({ username: user.username, sub: user._id }, { secret: secret, expiresIn: '15m' });
+      const newAccessToken = this.jwtService.sign({ username: user.username, id: user._id }, { secret: secret, expiresIn: '15m' });
 
       return { accessToken: newAccessToken };
     } catch (error: any) {

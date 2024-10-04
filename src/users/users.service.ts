@@ -32,7 +32,8 @@ export class UsersService {
   }
   async getUser(id: string) {
     try {
-      const user = await this.userModel.findById(id).lean().exec();
+      const user = await this.userModel.findById(id).populate('friends').lean().exec();
+
       let filterCreteria = {};
       let allUserFriends;
       if (user.friends.length > 0) {
