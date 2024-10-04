@@ -33,20 +33,22 @@ export class UsersService {
   async getUser(id: string) {
     try {
       const user = await this.userModel.findById(id).lean().exec();
-      let friendsIds;
+      let filterCreteria = {};
+      let allUserFriends;
       if (user.friends.length > 0) {
-        friendsIds = user.friends.map((friend) => friend.toString());
-      }
+        const friendsIds = user.friends.map((friend) => friend.toString());
+        filterCreteria['_id'] = { $in: [...friendsIds] };
 
-      const allUserFriends = await this.userModel
-        .find(
-          {
-            _id: { $in: [...friendsIds] },
-          },
-          '_id name username email',
-        )
-        .lean()
-        .exec();
+        allUserFriends = await this.userModel
+          .find(
+            {
+              ...filterCreteria,
+            },
+            '_id name username email',
+          )
+          .lean()
+          .exec();
+      }
 
       return { ...user, friends: allUserFriends };
     } catch (err: any) {
