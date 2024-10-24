@@ -32,7 +32,7 @@ jobs:
 
             # Export environment variables from GitHub secrets
             export NODE_ENV=production
-            export DATABASE_URL="mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo_db:27017/${MONGO_INITDB_DATABASE}"
+            export DATABASE_URL="mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@mongo_db:27017/${{ secrets.MONGO_INITDB_DATABASE }}"
             export JWT_SECRET=${{ secrets.JWT_SECRET }}
             export PORT=${{ secrets.PORT }}
 
