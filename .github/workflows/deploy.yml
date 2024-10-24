@@ -24,8 +24,8 @@ jobs:
           port: 22
           script: |
             # Go to the deployment path
-              ls -a
-              cd ${{ secrets.VPS_DEPLOY_PATH }}
+            cd ..
+            cd ${{ secrets.VPS_DEPLOY_PATH }}
 
             # Pull the latest changes from the master branch
             git pull origin master
