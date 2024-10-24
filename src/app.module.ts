@@ -18,7 +18,7 @@ import { UsersGateway } from './users/users.gateway';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URI'), // Retrieves MONGO_URI from the .env file
+        uri: configService.get<string>('DATABASE_URL'), // Retrieves DATABASE_URL from the .env file
       }),
     }),
     AuthModule,
