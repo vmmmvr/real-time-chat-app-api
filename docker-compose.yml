@@ -26,3 +26,6 @@ services:
       - "27017:27017"  # Expose MongoDB on the default port
     volumes:
       - ./mongodb_data:/data/db  # Persist MongoDB data in a local directory
+
+
+
