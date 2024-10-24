@@ -24,6 +24,7 @@ jobs:
           port: 22
           script: |
             # Go to the deployment path
+            echo ${{ secrets.VPS_DEPLOY_PATH }}
             cd ${{ secrets.VPS_DEPLOY_PATH }}
 
             # Pull the latest changes from the master branch
