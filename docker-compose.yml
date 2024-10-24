@@ -1,0 +1,28 @@
+version: '3'
+services:
+  api:
+    build: .
+    container_name: chatio_api
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: ${PORT} 
+    volumes:
+      - .:/usr/src/app
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo_db
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - "27017:27017"  # Expose MongoDB on the default port
+    volumes:
+      - ./mongodb_data:/data/db  # Persist MongoDB data in a local directory

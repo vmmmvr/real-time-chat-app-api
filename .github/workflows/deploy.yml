@@ -14,22 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js (Use the correct version of Node.js)
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x' # or the version you are using
-
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: npm install
-
-
-      # Step 5: Build the NestJS project
-      - name: Build project
-        run: npm run build
-
-      # Step 6: Deploy to VPS
+      # Step 2: Deploy to VPS via SSH and use Docker
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v0.1.5
         with:
@@ -39,26 +24,28 @@ jobs:
           port: 22
           script: |
             # Go to the deployment path
-            cd ..
             cd ${{ secrets.VPS_DEPLOY_PATH }}
 
             # Pull the latest changes from the master branch
             git pull origin master
 
-            # Install dependencies on the server
-            npm install
+            # Export environment variables from GitHub secrets
+            export NODE_ENV=production
+            export DATABASE_URL="mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo_db:27017/${MONGO_INITDB_DATABASE}"
+            export JWT_SECRET=${{ secrets.JWT_SECRET }}
+            export PORT=${{ secrets.PORT }}
 
-            # Build the project on the server
-            npm run build
+            # MongoDB authentication parameters from GitHub Secrets
+            export MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
+            export MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
+            export MONGO_INITDB_DATABASE=${{ secrets.MONGO_INITDB_DATABASE }}
 
-            # Restart the PM2 process for the NestJS API
-            pm2 restart all || pm2 start dist/main.js --name "chatio"
+            # Stop existing containers
+            # docker-compose down
+
+            # Build Docker images with the latest changes
+            docker-compose build
+
+            # Run the new containers in detached mode
+            docker-compose up -d
           debug: true
-
-      # Optional Step 7: Notify on successful deployment
-      # - name: Send deployment notification
-      #   uses: appleboy/telegram-action@v0.1.5
-      #   with:
-      #     token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      #     to: ${{ secrets.TELEGRAM_CHAT_ID }}
-      #     message: "NestJS API deployed to VPS successfully!"
