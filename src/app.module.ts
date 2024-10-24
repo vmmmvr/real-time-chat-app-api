@@ -17,9 +17,15 @@ import { UsersGateway } from './users/users.gateway';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('DATABASE_URL'), // Retrieves DATABASE_URL from the .env file
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const databaseUrl = configService.get<string>('DATABASE_URL');
+        console.log(`Connecting to MongoDB at: ${databaseUrl}`); // Debugging log
+        return {
+          uri: databaseUrl,
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        };
+      },
     }),
     AuthModule,
     UsersModule,
