@@ -14,6 +14,8 @@ async function bootstrap() {
   // Apply the response interceptor globally
   app.useGlobalInterceptors(new ResponseInterceptor());
 
+  console.log(configService.get<string>('DATABASE_URL'));
+
   // Apply the global error handler
   app.useGlobalFilters(new HttpExceptionFilter());
   const config = new DocumentBuilder()
